@@ -1,0 +1,104 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Расстояние между кнопками */
+}
+
+/* Стили кнопок */
+.level-button {
+    width: 200px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.level-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Небольшое увеличение при наведении */
+}
+
+/* Кнопка с правилами */
+#rulesMenuButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    padding: 5px 10px;
+    border: 1px solid #007BFF;
+    background-color: transparent;
+    color: #007BFF;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#rulesMenuButton:hover {
+    background-color: #007BFF;
+    color: white;
+}
+
+
+/* Контейнер для выпадающего списка */
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Расстояние между элементами */
+    padding: 30px;
+}
+
+/* Метка */
+.dropdown-label {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Выпадающий список */
+.dropdown {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.dropdown:hover {
+    border-color: #007BFF;
+}
+
+/* Информация о игроке  потом переделать а то адаптивность хромает*/
+.player-info {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}

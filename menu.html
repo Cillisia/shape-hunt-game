@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Меню</title>
+    <link rel="stylesheet" href="./css/menu_style.css">
+</head>
+<body>
+    <div id="menu">
+
+        <!-- Информация о игроке -->
+        <div class="player-info">
+            <span id="player-name">Имя игрока: Игрок</span>
+            <span id="player-score">Счёт: 0</span>
+        </div>
+
+        <div class="button-container">
+            <button class="level-button" id="level1">Уровень 1</button>
+            <button class="level-button" id="level2">Уровень 2</button>
+            <button class="level-button" id="level3">Уровень 3</button>
+        </div>
+
+        <div class="dropdown-container">
+            <label for="difficulty-select" class="dropdown-label">Сложность:</label>
+            <select id="difficulty-select" class="dropdown">
+                <option value="easy">Легкий</option>
+                <option value="medium">Средний</option>
+                <option value="hard">Сложный</option>
+            </select>
+        </div>
+
+
+
+
+    </div>
+
+    <!-- Кнопка с правилами -->
+    <button id="rulesMenuButton">?</button>
+
+    <script src="./js/menu_script.js" type="module"></script>
+</body>
+</html>

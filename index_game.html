@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Охота за фигурами</title>
+    <link rel="stylesheet" href="./css/index_style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Название игры -->
+        <h1 class="game-title">Охота за фигурами</h1>
+
+        <!-- Окно регистрации -->
+        <div class="login-box">
+            <label for="username">Введите ваш логин:</label>
+            <input type="text" id="username" placeholder="Ваш логин">
+            <button id="start-game">Начать игру</button>
+        </div>
+
+        <!-- Кнопка со знаком вопроса -->
+        <button id="rules-btn" class="help-button">?</button>
+
+        <!-- Модальное окно с правилами -->
+        <div id="rules-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close-button">&times;</span>
+                <h2>Правила игры</h2>
+                <p>Вам предстоит искать фигуры по заданным критериям. Например, по цвету, форме или размеру.</p>
+                <p>Зарабатывайте баллы за правильные действия и избегайте штрафов за ошибки!</p>
+                <p>Удачи!</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./js/index_script.js"></script>
+    <script  type="module" src="./js/storage.js"></script>
+</body>
+</html>
