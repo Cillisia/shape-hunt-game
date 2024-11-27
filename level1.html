@@ -7,13 +7,23 @@
     <link rel="stylesheet" href="./css/level1_style.css">
 </head>
 <body>
-    <div id="game-level">
-        <div id="task-display">Найдите красный круг!</div>
-        <div id="score-display">Счёт: 0</div>
-        <div id="timer-bar"></div>
-        <div id="game-field"></div>
-    </div>
+    <div id="game-container">
+        <!-- Блок с текстом задания -->
+        <div id="task-label">
+            Найдите красный круг!
+        </div>
 
+        <!-- Полоска таймера -->
+        <div id="timer-bar-container">
+            <div id="timer-bar"></div>
+        </div>
+
+        <!-- Сетка с фигурами -->
+        <div id="game-field" class="grid">
+            <!-- Фигуры будут динамически добавляться через JS -->
+        </div>
+
+    </div>
     <script  type="module" src="./js/level1_script.js"></script>
 </body>
 </html>
