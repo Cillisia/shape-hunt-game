@@ -12,7 +12,7 @@
             Время: <span id="time-left">10</span> сек
         </div>
         <div id="task-label">
-            Найдите красный круг!
+            Найди красный круг
         </div>
         <div id="score-box" class="info-box">
             <div>Раунд: <span id="round-info">1 / 10</span></div>
@@ -25,8 +25,6 @@
         <div id="timer-bar"></div>
     </div>
 
-
-
     <div id="game-container">
 
         <!-- Сетка с фигурами -->
@@ -35,6 +33,30 @@
         </div>
 
     </div>
+
+    <!-- Модальное окно завершения игры -->
+    <div id="game-over-modal" class="hidden modal">
+        <div class="modal-content">
+            <h2 id="game-over-message">Игра окончена!</h2>
+            <p id="game-over-details"><span id="final-res-details">0</span></p>
+            <div class="modal-buttons">
+                <button id="menu-button">Меню</button>
+                <button id="retry-button">Заново</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно правил -->
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <h2>Правила игры</h2>
+            <p>На каждом уровне вы должны найти фигуру, соответствующую заданию. 
+            У вас ограниченное время, поэтому действуйте быстро!</p>
+            <button id="start-button" class="modal-buttons">Старт</button>
+        </div>
+    </div>
+
+
     <script  type="module" src="./js/level1_script.js"></script>
 </body>
 </html>

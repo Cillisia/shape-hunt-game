@@ -4,6 +4,8 @@ const numRounds=10;
 const roundTime = 10;
 let timeLeft = 10; // например, 30 секунд на раунд
 let timer;
+const winMessage = "Уровень пройден!";
+const looseMessage = "Ты проиграл!";
 
 const colorDictionary = {
     "red": "красный",
@@ -111,24 +113,26 @@ function checkFigure(figure) {
     console.log("Фигура выбрана:", figure);
     if(figure.classList.contains('target')){
         stopTimer();
-        curScore+=50; //TODO сделать зависимость от времени
+        curScore+=50+5*timeLeft; //TODO сделать зависимость от времени
         // и еще обновить счет на экране
 
         //начать следующий раунд, типа вызвать функцию перезагрузки стола и тд 
-        if(curRound<numRounds){
+        if(curRound<numRounds-1){
             generateTask();
             generateFigures();
+            curRound+=1; //обновить на доске что типа новый раунд TODO убрать это в отд функ
+            document.getElementById('round-info').textContent = ` ${curRound+1} / ${numRounds}`;
+            document.getElementById("time-left").textContent = ` ${roundTime} `;
         }
         else{
-            //кайфы, расход TODO
+            showGameOverModal(winMessage);
+            //TODO тут еще все сохранить в бд туда сюда
         }
-        curRound+=1; //обновить на доске что типа новый раунд TODO убрать это в отд функ
-        document.getElementById('round-info').textContent = ` ${curRound+1} / ${numRounds}`;
-        document.getElementById("time-left").textContent = ` ${roundTime} `;
+        
 
     }
     else{
-        curScore-=10;
+        curScore-=20;
         //и пусть на экране будет вылетать где-то сбоку красная надпись -10
         //ну или фигура неприкольно трясется угрожающе
         //для всех фигур он ховер прописать смешнявки
@@ -141,6 +145,7 @@ function startTimer() {
     // Таймер будет отсчитывать каждую секунду
     timer = setInterval(() => {
         if (timeLeft <= 0) {
+            showGameOverModal(looseMessage);
             clearInterval(timer);  // Остановить таймер, если время вышло
             console.log("Время вышло!");
             // Можно добавить логику для окончания уровня или игры
@@ -165,13 +170,49 @@ function stopTimer() {
     // Можно добавить логику для перехода к следующему раунду или уровням
 }
 
+function showGameOverModal(message) {
+    const modal = document.getElementById("game-over-modal");
+    const finalRasDetails = document.getElementById("final-res-details");
+    const gameOverMessage = document.getElementById("game-over-message");
+
+    gameOverMessage.textContent = message;
+    if(message == winMessage){
+        finalRasDetails.textContent = 'Вы набрали:' +` ${curScore}`+ ' очков';
+        //тут подтянуть лучший счет игрока за этот уровень из локал TODO
+    }
+    else{
+        finalRasDetails.textContent = 'Пройдено раундов:' +` ${curRound}`+ '/10 ';
+    }
+
+    // Показываем модальное окно
+    modal.classList.remove("hidden");
+}
+
+// Кнопка "Меню"
+document.getElementById("menu-button").addEventListener("click", () => {
+    window.location.href = "../menu.html"; // Переход на страницу меню
+});
+
+// Кнопка "Заново"
+document.getElementById("retry-button").addEventListener("click", () => {
+    window.location.reload(); // Перезагрузка текущей страницы
+});
 
 
 
+// Слушаем кнопку "Старт"
+document.getElementById("start-button").addEventListener("click", () => {
+    startGame();
+
+});
 
 
+function startGame() {
+    // Скрываем окно правил
+    document.getElementById("rules-modal").classList.add("hidden");
+    // Инициализация первого раунда 
+    generateTask();
+    generateFigures();
 
+}
 
-// Инициализация первого раунда 
-generateTask();
-generateFigures();

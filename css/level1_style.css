@@ -76,7 +76,7 @@ body {
 
 
 
-/* Стили для фигур */
+/* ФИГУРЫ*/
 .figure {
     width: 50px;
     height: 50px;
@@ -100,6 +100,10 @@ body {
     border-right: 25px solid transparent;
     border-bottom: 50px solid;
 }
+
+
+ /* ИНОФРМАЦИЯ */
+
 #info-panel {
     display: flex;
     justify-content: space-between;
@@ -123,8 +127,6 @@ body {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
-
 /* Общие стили текста */
 #round-info,
 #score-info,
@@ -140,4 +142,71 @@ body {
 /* Счёт и раунд справа */
 #score-box {
     text-align: left;
+}
+
+/* МОДАЛЬНОЕ ОКНО  */
+
+/* Скрытое состояние модального окна */
+.hidden {
+    display: none;
+}
+
+/* Основной контейнер модального окна */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Поверх всех элементов */
+
+}
+
+/* Содержимое модального окна */
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 40%;
+    height: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Кнопки */
+.modal-buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#menu-button {
+    background: #007bff;
+    color: #fff;
+}
+
+#retry-button {
+    background: #28a745;
+    color: #fff;
+}
+#start-button{
+    background: #28a745;
+    color: #fff;
+    height: 20%;
+    width: 20%
+}
+
+.modal-buttons button:hover {
+    opacity: 0.9;
+}
+
+.hidden {
+    display: none;
 }
