@@ -1,8 +1,15 @@
+// Получаем текущего пользователя из Local Storage
+const currentUsername = localStorage.getItem('currentUser'); // имя текущего пользователя
+let users = JSON.parse(localStorage.getItem('users')) || []; // массив пользователей
+
+// Находим текущего пользователя
+const currentUser = users.find(user => user.username === currentUsername);
+
 let curRound = 0;
 let curScore = 0;
 const numRounds=10;
-const roundTime = 10;
-let timeLeft = 10; // например, 30 секунд на раунд
+const roundTime = 10-Number(currentUser.difficulty)*2;
+let timeLeft = 10-Number(currentUser.difficulty)*2; // например, 30 секунд на раунд
 let timer;
 const winMessage = "Уровень пройден!";
 const looseMessage = "Ты проиграл!";
@@ -26,26 +33,20 @@ const figureDictionary = {
     "oval": "овал"
 };
 
-const colors = ["red", "blue", "green", "yellow", "purple"];
-const shapes = ["circle", "square", "triangle"]; // Можно добавить больше фигур
-
-const gridCells = 8; // Общее количество ячеек в сетке
+const colors = ["red", "blue", "green", "yellow", "purple","pink","black" ];
+const shapes = ["circle", "square", "triangle","rectangle", "oval"]; // Можно добавить больше фигур
 
 let targetColor = 'blue'; //дефолтные значения
 let targetShape = 'curcle';
 let targetCellIndex = 0; 
-
-// Получаем текущего пользователя из Local Storage
-const currentUsername = localStorage.getItem('currentUser'); // имя текущего пользователя
-let users = JSON.parse(localStorage.getItem('users')) || []; // массив пользователей
-
-// Находим текущего пользователя
-const currentUser = users.find(user => user.username === currentUsername);
+const baseRowNum = 3;
+const baseColNum = 5;
+const gridCells = (Number(currentUser.difficulty)+baseRowNum)*(Number(currentUser.difficulty)+baseColNum); // Общее количество ячеек в сетке
 
 //создаем задание
 function generateTask() {
-    targetColor = colors[Math.floor(Math.random() * colors.length)];
-    targetShape = shapes[Math.floor(Math.random() * shapes.length)];
+    targetColor = colors[Math.floor(Math.random() * (colors.length-(2-currentUser.difficulty)))];
+    targetShape = shapes[Math.floor(Math.random() * (shapes.length-(2-currentUser.difficulty)))]; //пока так, потом больше фигур
     targetCellIndex = Math.floor(Math.random() * gridCells); 
 
     //подписали задание
@@ -86,8 +87,8 @@ function generateFigures() {
             // Генерируем случайную фигуру и цвет, отличные от целевой
             let randomColor, randomShape;
             do {
-                randomColor = colors[Math.floor(Math.random() * colors.length)];
-                randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+                randomColor = colors[Math.floor(Math.random() * (colors.length-(2-currentUser.difficulty)))];
+                randomShape = shapes[Math.floor(Math.random() * (shapes.length-(2-currentUser.difficulty)))];
             } while (randomColor === targetColor && randomShape === targetShape);
 
             figure.classList.add(randomShape);
@@ -120,7 +121,7 @@ function checkFigure(figure) {
     console.log("Фигура выбрана:", figure);
     if(figure.classList.contains('target')){
         stopTimer();
-        curScore+=50+5*timeLeft+10*Number(currentUser.difficulty); //TODO сделать зависимость от времени
+        curScore+=30+5*timeLeft+15*Number(currentUser.difficulty); //TODO сделать зависимость от времени
         console.log(curScore, timeLeft, currentUser.difficulty);
         // и еще обновить счет на экране
 
@@ -143,7 +144,7 @@ function checkFigure(figure) {
 
     }
     else{
-        curScore-=20;
+        curScore-=10;
         //и пусть на экране будет вылетать где-то сбоку красная надпись -10
         //ну или фигура неприкольно трясется угрожающе
         //для всех фигур он ховер прописать смешнявки
@@ -166,7 +167,7 @@ function startTimer() {
             // Обновляем отображение таймера на странице (например, в элементе с id="timer")
             document.getElementById("time-left").textContent = ` ${timeLeft} `;
         }
-    }, 1000); // Каждую секунду
+    }, 1000); 
 
     // Сбрасываем предыдущую анимацию
     const timerBar = document.getElementById("timer-bar");
@@ -214,7 +215,6 @@ document.getElementById("retry-button").addEventListener("click", () => {
 // Слушаем кнопку "Старт"
 document.getElementById("start-button").addEventListener("click", () => {
     startGame();
-
 });
 
 
@@ -222,8 +222,14 @@ function startGame() {
     // Скрываем окно правил
     document.getElementById("rules-modal").classList.add("hidden");
     // Инициализация первого раунда 
+    //генерим поле в зависимости от сложности
+    generateFeild()
     generateTask();
     generateFigures();
 
 }
-
+function generateFeild(){
+    const gridElement = document.querySelector('.grid');
+    gridElement.style.gridTemplateColumns = 'repeat('+`${Number(currentUser.difficulty)+baseColNum}`+ ', 1fr)';
+    gridElement.style.gridTemplateRows = 'repeat('+`${Number(currentUser.difficulty)+baseRowNum}`+ ', 1fr)';
+}

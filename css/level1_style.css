@@ -70,7 +70,7 @@ body {
     grid-template-rows: repeat(2, 1fr);
     gap: 20px;
     width: 100%;
-    height: 300px;
+    height: 100%;
     place-items: center; /* Центровка содержимого ячеек */
 }
 
@@ -101,6 +101,18 @@ body {
     border-bottom: 50px solid;
 }
 
+.oval {
+    width: 80%;
+    height: 60%;
+    background-color: red;
+    border-radius: 50%;
+}
+
+
+.rectangle {
+    width: 80%;
+    height: 40%;
+}
 
  /* ИНОФРМАЦИЯ */
 
