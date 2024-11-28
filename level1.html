@@ -7,16 +7,27 @@
     <link rel="stylesheet" href="./css/level1_style.css">
 </head>
 <body>
-    <div id="game-container">
-        <!-- Блок с текстом задания -->
+    <div id="info-panel">
+        <div id="timer-box" class="info-box">
+            Время: <span id="time-left">10</span> сек
+        </div>
         <div id="task-label">
             Найдите красный круг!
         </div>
-
-        <!-- Полоска таймера -->
-        <div id="timer-bar-container">
-            <div id="timer-bar"></div>
+        <div id="score-box" class="info-box">
+            <div>Раунд: <span id="round-info">1 / 10</span></div>
+            <div>Счёт: <span id="score-info">0</span></div>
         </div>
+    </div>
+
+    <!-- Полоска таймера -->
+    <div id="timer-bar-container">
+        <div id="timer-bar"></div>
+    </div>
+
+
+
+    <div id="game-container">
 
         <!-- Сетка с фигурами -->
         <div id="game-field" class="grid">

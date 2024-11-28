@@ -1,7 +1,10 @@
 let curRound = 0;
 let curScore = 0;
 const numRounds=10;
-const roundTime = 5000;
+const roundTime = 10;
+let timeLeft = 10; // например, 30 секунд на раунд
+let timer;
+
 const colorDictionary = {
     "red": "красный",
     "blue": "синий",
@@ -46,6 +49,9 @@ function generateTask() {
 function generateFigures() {
     const gameField = document.getElementById("game-field");
     gameField.innerHTML = ""; // Очищаем поле перед каждым раундом
+    timeLeft = roundTime; // сбрасываем время на начало
+    // Запускаем таймер
+    startTimer();
 
     for (let i = 0; i < gridCells; i++) {
         const figure = document.createElement("div");
@@ -104,6 +110,7 @@ function checkFigure(figure) {
     // Логика проверки: сравнить свойства фигуры с текущим заданием
     console.log("Фигура выбрана:", figure);
     if(figure.classList.contains('target')){
+        stopTimer();
         curScore+=50; //TODO сделать зависимость от времени
         // и еще обновить счет на экране
 
@@ -113,9 +120,12 @@ function checkFigure(figure) {
             generateFigures();
         }
         else{
-            //кайфы, расход
+            //кайфы, расход TODO
         }
-        curRound+=1; //обновить на доске что типа новый раунд TODO
+        curRound+=1; //обновить на доске что типа новый раунд TODO убрать это в отд функ
+        document.getElementById('round-info').textContent = ` ${curRound+1} / ${numRounds}`;
+        document.getElementById("time-left").textContent = ` ${roundTime} `;
+
     }
     else{
         curScore-=10;
@@ -123,8 +133,45 @@ function checkFigure(figure) {
         //ну или фигура неприкольно трясется угрожающе
         //для всех фигур он ховер прописать смешнявки
     }
+    document.getElementById('score-info').textContent = ` ${curScore}`;
+
 }
 
-// Инициализация первого раунда цикл навесить TODO
+function startTimer() {
+    // Таймер будет отсчитывать каждую секунду
+    timer = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(timer);  // Остановить таймер, если время вышло
+            console.log("Время вышло!");
+            // Можно добавить логику для окончания уровня или игры
+        } else {
+            timeLeft--;
+            console.log("Оставшееся время:", timeLeft);
+            // Обновляем отображение таймера на странице (например, в элементе с id="timer")
+            document.getElementById("time-left").textContent = ` ${timeLeft} `;
+        }
+    }, 1000); // Каждую секунду
+
+    // Сбрасываем предыдущую анимацию
+    const timerBar = document.getElementById("timer-bar");
+    timerBar.style.animation = "none";
+    timerBar.offsetHeight; // Трюк для перезапуска анимации
+    timerBar.style.animation = `shrink ${roundTime}s linear`;
+}
+
+function stopTimer() {
+    clearInterval(timer); // Останавливаем таймер
+    console.log("Таймер остановлен");
+    // Можно добавить логику для перехода к следующему раунду или уровням
+}
+
+
+
+
+
+
+
+
+// Инициализация первого раунда 
 generateTask();
 generateFigures();
