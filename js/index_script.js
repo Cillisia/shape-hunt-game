@@ -18,7 +18,9 @@ startGameButton.addEventListener('click', () => {
             // Создаем нового пользователя
             const newUser = {
                 username: username,
-                score: 0, // Начальные очки
+                scorel1: 0, //лучший счет за первый уровень
+                scorel2: 0,
+                scorel3: 0,
                 level: 1, // Начальный уровень
                 difficulty: 'easy' // Начальная сложность
             };

@@ -35,6 +35,13 @@ let targetColor = 'blue'; //дефолтные значения
 let targetShape = 'curcle';
 let targetCellIndex = 0; 
 
+// Получаем текущего пользователя из Local Storage
+const currentUsername = localStorage.getItem('currentUser'); // имя текущего пользователя
+let users = JSON.parse(localStorage.getItem('users')) || []; // массив пользователей
+
+// Находим текущего пользователя
+const currentUser = users.find(user => user.username === currentUsername);
+
 //создаем задание
 function generateTask() {
     targetColor = colors[Math.floor(Math.random() * colors.length)];
@@ -113,7 +120,8 @@ function checkFigure(figure) {
     console.log("Фигура выбрана:", figure);
     if(figure.classList.contains('target')){
         stopTimer();
-        curScore+=50+5*timeLeft; //TODO сделать зависимость от времени
+        curScore+=50+5*timeLeft+10*Number(currentUser.difficulty); //TODO сделать зависимость от времени
+        console.log(curScore, timeLeft, currentUser.difficulty);
         // и еще обновить счет на экране
 
         //начать следующий раунд, типа вызвать функцию перезагрузки стола и тд 
@@ -126,7 +134,10 @@ function checkFigure(figure) {
         }
         else{
             showGameOverModal(winMessage);
-            //TODO тут еще все сохранить в бд туда сюда
+            if(curScore>currentUser.scorel1){
+                currentUser.scorel1 = curScore;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
         }
         
 
