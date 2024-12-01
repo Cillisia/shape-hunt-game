@@ -205,7 +205,12 @@ function generateTaskFigure(side) {
     figure.setAttribute("data-side", side); //TODO что это такое 
     figure.setAttribute("draggable", true); // Включаем перетаскивание
     figure.addEventListener("dragstart", dragStart); // Обработчик перетаскивания
-
+    if(chechCondition(figure, 'right')){
+        figure.classList.add('goodRight');
+    }
+    if(chechCondition(figure, 'left')){
+        figure.classList.add('goodLeft');
+    }
     return figure;
 }
 
@@ -226,7 +231,12 @@ function generateRandomFigure() {
     figure.style.width = getRandomItem(sizes); // Случайный размер
     figure.setAttribute("draggable", true); // Включаем перетаскивание
     figure.addEventListener("dragstart", dragStart); // Обработчик перетаскивания
-
+    if(chechCondition(figure, 'right')){
+        figure.classList.add('goodRight');
+    }
+    if(chechCondition(figure, 'left')){
+        figure.classList.add('goodLeft');
+    }
     return figure;
 }
 
@@ -290,7 +300,10 @@ function drop(event, section, side) {
         // Удаляем исходную фигуру из поля
         const dragged = document.getElementById('game-field').querySelector(".dragged");
         if (dragged) {
-            dragged.remove();
+            dragged.style.opacity = "0"; // Прозрачность
+            dragged.style.pointerEvents = "none"; // Отключаем взаимодействие
+            dragged.setAttribute("draggable", "false"); // Отключаем возможность перетаскивания
+            dragged.classList.remove("dragged", 'goodLeft','goodRight');
         }
     } else {
         // Если фигура не подходит
@@ -301,6 +314,7 @@ function drop(event, section, side) {
         // updateScoreDisplay();
         
     }
+    checkRoundEnd();
 }
 
 function writeTask(){
@@ -345,5 +359,28 @@ function chechCondition(figure, side){
             return (figure.classList.contains(task.left.shape) && (figure.style.backgroundColor === task.left.color || figure.style.borderBottomColor ===task.left.color ) && figure.classList.contains(task.left.size))
         }
         return (figure.classList.contains(task.right.shape) && (figure.style.backgroundColor === task.right.color || figure.style.borderBottomColor ===task.right.color ) && figure.classList.contains(task.right.size) )
+    }
+}
+
+function checkRoundEnd(){
+    const goodFigL = document.getElementById('game-field').querySelector(".goodLeft");
+    const goodFigR = document.getElementById('game-field').querySelector(".goodRight");
+    if(!(goodFigL || goodFigR)){
+        if(curRound<numRounds-1){
+            generateTask();
+            generateFigures();
+            curRound+=1; //обновить на доске что типа новый раунд TODO убрать это в отд функ
+            document.getElementById('round-info').textContent = ` ${curRound+1} / ${numRounds}`;
+            document.getElementById("time-left").textContent = ` ${roundTime} `;
+            document.getElementById('left-container').innerHTML = ""; 
+            document.getElementById('right-container').innerHTML = "";
+        }
+        else{
+            showGameOverModal(winMessage);
+            if(curScore>currentUser.scorel1){
+                currentUser.scorel1 = curScore;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+        }
     }
 }
