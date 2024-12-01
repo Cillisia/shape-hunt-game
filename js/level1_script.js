@@ -117,7 +117,6 @@ function getRandomColor() {
 
 // Проверка выбранной фигуры
 function checkFigure(figure) {
-    // Логика проверки: сравнить свойства фигуры с текущим заданием
     console.log("Фигура выбрана:", figure);
     if(figure.classList.contains('target')){
         stopTimer();
@@ -172,14 +171,13 @@ function startTimer() {
     // Сбрасываем предыдущую анимацию
     const timerBar = document.getElementById("timer-bar");
     timerBar.style.animation = "none";
-    timerBar.offsetHeight; // Трюк для перезапуска анимации
+    timerBar.offsetHeight; 
     timerBar.style.animation = `shrink ${roundTime}s linear`;
 }
 
 function stopTimer() {
-    clearInterval(timer); // Останавливаем таймер
+    clearInterval(timer); 
     console.log("Таймер остановлен");
-    // Можно добавить логику для перехода к следующему раунду или уровням
 }
 
 function showGameOverModal(message) {
@@ -207,12 +205,12 @@ document.getElementById("menu-button").addEventListener("click", () => {
 
 // Кнопка "Заново"
 document.getElementById("retry-button").addEventListener("click", () => {
-    window.location.reload(); // Перезагрузка текущей страницы
+    window.location.reload(); //    Перезагрузка текущей страницы
 });
 
 
 
-// Слушаем кнопку "Старт"
+// Стар
 document.getElementById("start-button").addEventListener("click", () => {
     startGame();
 });
@@ -221,8 +219,8 @@ document.getElementById("start-button").addEventListener("click", () => {
 function startGame() {
     // Скрываем окно правил
     document.getElementById("rules-modal").classList.add("hidden");
-    // Инициализация первого раунда 
-    //генерим поле в зависимости от сложности
+    // Инициализация п  ервого раунда 
+    //Генерим поле в зависимости от сложности
     generateFeild()
     generateTask();
     generateFigures();

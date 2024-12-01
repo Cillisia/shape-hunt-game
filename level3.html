@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Третий уровень</title>
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="./css/level3_style.css">
+</head>
+<body>
+    <div id="info-panel">
+        <div id="timer-box" class="info-box">
+            Время: <span id="time-left">0</span> сек
+        </div>
+        <div id="task-label">
+            Найди красный круг
+        </div>
+        <div id="score-box" class="info-box">
+            <div>Раунд: <span id="round-info">1 / 10</span></div>
+            <div>Счёт: <span id="score-info">0</span></div>
+        </div>
+    </div>
+
+    <!-- Полоска таймера -->
+    <div id="timer-bar-container">
+        <div id="timer-bar"></div>
+    </div>
+
+    <div id="game-container">
+        <div id="left-container" class="drop-zone">
+        </div>
+        <!-- Сетка с фигурами -->
+        <div id="game-field" class="grid">
+            <!-- Фигуры будут динамически добавляться  -->
+        </div>
+        <div id="right-container" class="drop-zone">
+        </div>
+    </div>
+
+    <!-- Модальное окно завершения игры -->
+    <div id="game-over-modal" class="hidden modal">
+        <div class="modal-content">
+            <h2 id="game-over-message">Игра окончена!</h2>
+            <p id="game-over-details"><span id="final-res-details">0</span></p>
+            <div class="modal-buttons">
+                <button id="menu-button">Меню</button>
+                <button id="retry-button">Заново</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно правил -->
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <h2>Правила игры</h2>
+            <p>На каждом уровне вы должны найти фигуру, соответствующую заданию. 
+            У вас ограниченное время, поэтому действуйте быстро!</p>
+            <button id="start-button" class="modal-buttons">Старт</button>
+        </div>
+    </div>
+
+
+    <script  type="module" src="./js/level3_script.js"></script>
+</body>
+</html>

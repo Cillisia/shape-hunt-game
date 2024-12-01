@@ -10,15 +10,13 @@ document.getElementById('player-score').textContent = `Очки: ${currentUser.s
 
 // Добавляем обработчики событий на кнопки выбора уровня
 document.getElementById('level1').addEventListener('click', () => {
-
-    //сохраняем сложность,, которую выставил игрок
-    const selectedDifficulty = document.getElementById('difficulty-select').value;
-    currentUser.difficulty = selectedDifficulty;
-    // Сохраняем обновленный массив пользователей обратно в Local Storage
-    localStorage.setItem('users', JSON.stringify(users));
-
-
+    uploadData();
     window.location.href = '../level1.html';
+});
+
+document.getElementById('level3').addEventListener('click', () => {
+    uploadData();
+    window.location.href = '../level3.html';
 });
 
 // Кнопка с правилами TODO
@@ -35,3 +33,14 @@ function startGame(level) {
     // Переходим на игровую страницу
     window.location.href = 'game.html';
 }
+
+function uploadData(){
+    //сохраняем сложность,, которую выставил игрок
+    const selectedDifficulty = document.getElementById('difficulty-select').value;
+    currentUser.difficulty = selectedDifficulty;
+    // Сохраняем обновленный массив пользователей обратно в Local Storage
+    localStorage.setItem('users', JSON.stringify(users));
+}
+
+
+
