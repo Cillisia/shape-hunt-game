@@ -9,7 +9,7 @@ let curRound = 0;
 let curScore = 0;
 const numRounds=10;
 const roundTime = 30-Number(currentUser.difficulty)*2;
-let timeLeft = 10-Number(currentUser.difficulty)*2; // например, 30 секунд на раунд
+let timeLeft = roundTime; // например, 30 секунд на раунд
 let timer;
 const winMessage = "Уровень пройден!";
 const looseMessage = "Ты проиграл!";
@@ -35,9 +35,9 @@ const figureDictionary = {
     "oval": "овал"
 };
 const sizeDictionary = {
-    "small": "маленькие",
-    "medium": "средние",
-    "large": "большие"
+    "small": "маленький",
+    "medium": "средний",
+    "large": "большой"
 };
 
 const colors = ["red", "blue", "green", "yellow", "purple","pink","black" ];
@@ -138,7 +138,7 @@ function generateTask() {
         task.left.color = getRandomItem(colors);
         task.right.shape = getRandomItem(shapes.filter(s => s !== task.left.shape));
         task.right.color = getRandomItem(colors.filter(c => c !== task.left.color));
-    } else if (curDdifficulty === 2) {
+    } else if (curDifficulty === 2) {
         // Сложность 2: форма + цвет + размер
         task.left.shape = getRandomItem(shapes);
         task.left.color = getRandomItem(colors);
@@ -228,7 +228,8 @@ function generateRandomFigure() {
     } else {
         figure.style.backgroundColor =  getRandomItem(colors);
     }
-    figure.style.width = getRandomItem(sizes); // Случайный размер
+    //figure.style.width = getRandomItem(sizes); // Случайный размер
+    figure.classList.add(curDifficulty === 2 ? getRandomItem(sizes) : 'medium');
     figure.setAttribute("draggable", true); // Включаем перетаскивание
     figure.addEventListener("dragstart", dragStart); // Обработчик перетаскивания
     if(chechCondition(figure, 'right')){
@@ -294,9 +295,8 @@ function drop(event, section, side) {
         // Если фигура подходит
         section.appendChild(draggedElement);
         section.classList.add("correct");
-        curScore += 10; // Добавляем очки
+        curScore+=1+ Math.round(0.3*timeLeft)+4*curDifficulty;
         console.log("правильная фигура кайф")
-        // updateScoreDisplay(); // Обновляем счет
         // Удаляем исходную фигуру из поля
         const dragged = document.getElementById('game-field').querySelector(".dragged");
         if (dragged) {
@@ -311,9 +311,11 @@ function drop(event, section, side) {
         setTimeout(() => section.classList.remove("wrong"), 1000); // Убираем подсветку через 1 сек
         curScore -= 5; // Снимаем очки
         console.log("неверно фигура")
-        // updateScoreDisplay();
+        const dragged = document.getElementById('game-field').querySelector(".dragged");
+        dragged.classList.remove("dragged");
         
     }
+    document.getElementById('score-info').textContent = ` ${curScore}`;
     checkRoundEnd();
 }
 
@@ -325,8 +327,8 @@ function writeTask(){
       let rightTaskText = `Справа: ${figureDictionary[task.right.shape]}`;
   
       if (curDifficulty === 1 ) {
-          leftTaskText = `Слева: ${colorDictionary[task.left.color]} ${colorDictionary[task.left.shape]}`;
-          rightTaskText = `Справа: ${colorDictionary[task.right.color]} ${colorDictionary[task.right.shape]}`;
+          leftTaskText = `Слева: ${colorDictionary[task.left.color]} ${figureDictionary[task.left.shape]}`;
+          rightTaskText = `Справа: ${colorDictionary[task.right.color]} ${figureDictionary[task.right.shape]}`;
       }
   
       if (curDifficulty === 2) {
@@ -367,6 +369,7 @@ function checkRoundEnd(){
     const goodFigR = document.getElementById('game-field').querySelector(".goodRight");
     if(!(goodFigL || goodFigR)){
         if(curRound<numRounds-1){
+            stopTimer();
             generateTask();
             generateFigures();
             curRound+=1; //обновить на доске что типа новый раунд TODO убрать это в отд функ
@@ -377,8 +380,8 @@ function checkRoundEnd(){
         }
         else{
             showGameOverModal(winMessage);
-            if(curScore>currentUser.scorel1){
-                currentUser.scorel1 = curScore;
+            if(curScore>currentUser.scorel3){
+                currentUser.scorel3 = curScore;
                 localStorage.setItem('users', JSON.stringify(users));
             }
         }

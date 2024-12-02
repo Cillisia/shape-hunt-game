@@ -120,7 +120,7 @@ function checkFigure(figure) {
     console.log("Фигура выбрана:", figure);
     if(figure.classList.contains('target')){
         stopTimer();
-        curScore+=30+5*timeLeft+15*Number(currentUser.difficulty); //TODO сделать зависимость от времени
+        curScore+=30+5*timeLeft+15*Number(currentUser.difficulty); 
         console.log(curScore, timeLeft, currentUser.difficulty);
         // и еще обновить счет на экране
 
