@@ -15,7 +15,8 @@ const winMessage = "Уровень пройден!";
 const looseMessage = "Ты проиграл!";
 const figuresForLeft = 2; // Количество фигур для левой стороны
 const figuresForRight = 2; // Количество фигур для правой стороны
-
+let isPaused = false;
+let timerInterval;
 const colorDictionary = {
     "red": "красный",
     "blue": "синий",
@@ -70,11 +71,13 @@ function startTimer() {
             console.log("Время вышло!");
             // Можно добавить логику для окончания уровня или игры
         } else {
-            timeLeft--;
-            console.log("Оставшееся время:", timeLeft);
-            // Обновляем отображение таймера на странице (например, в элементе с id="timer")
-            document.getElementById("time-left").textContent = ` ${timeLeft} `;
-        }
+            if(!isPaused){
+                timeLeft--;
+                console.log("Оставшееся время:", timeLeft);
+                // Обновляем отображение таймера на странице (например, в элементе с id="timer")
+                document.getElementById("time-left").textContent = ` ${timeLeft} `;
+                }   
+         }
     }, 1000); 
 
     // Сбрасываем предыдущую анимацию
@@ -83,6 +86,25 @@ function startTimer() {
     timerBar.offsetHeight; 
     timerBar.style.animation = `shrink ${roundTime}s linear`;
 }
+// function pauseGame() {
+//     isPaused = true;
+//     clearInterval(timerInterval); // Останавливаем таймер
+//     document.getElementById("timer-bar").style.animationPlayState = "paused"; // Останавливаем анимацию
+// }
+// function resumeGame() {
+//     isPaused = false;
+//     startTimer(); // Запускаем таймер заново
+//     document.getElementById("timer-bar").style.animationPlayState = "running"; // Возобновляем анимацию
+// }
+
+// // Обработчики событий для кнопок
+// document.getElementById('pause-btn').addEventListener('click', () => {
+//     if (isPaused) {
+//         resumeGame(); // Если игра на паузе, продолжаем
+//     } else {
+//         pauseGame(); // Иначе ставим игру на паузу
+//     }
+// });
 
 function stopTimer() {
     clearInterval(timer); 
@@ -321,7 +343,8 @@ function drop(event, section, side) {
 
 function writeTask(){
     // Получаем элементы для отображения задания
-    const taskLabel = document.getElementById("task-label");
+    const taskLabelLeft = document.getElementById("task-label-left");
+    const taskLabelRight = document.getElementById("task-label-right");
       // Формируем текст задания на основе сложности
       let leftTaskText = `Слева: ${figureDictionary[task.left.shape]}`;
       let rightTaskText = `Справа: ${figureDictionary[task.right.shape]}`;
@@ -337,7 +360,9 @@ function writeTask(){
       }
   
       // Обновляем текст задания
-      taskLabel.textContent = `${leftTaskText}, ${rightTaskText}`;
+      taskLabelLeft.textContent = `${leftTaskText}`;
+      taskLabelRight.textContent = `${rightTaskText}`;
+      
 }
 
 function chechCondition(figure, side){
@@ -387,3 +412,8 @@ function checkRoundEnd(){
         }
     }
 }
+
+document.getElementById('menu-btn').addEventListener('click', () => {
+    alert("Ваши очки не сохранятся")
+    window.location.href = "menu.html"; // Переход в меню
+});

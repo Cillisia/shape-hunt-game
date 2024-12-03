@@ -208,8 +208,6 @@ document.getElementById("retry-button").addEventListener("click", () => {
     window.location.reload(); //    Перезагрузка текущей страницы
 });
 
-
-
 // Стар
 document.getElementById("start-button").addEventListener("click", () => {
     startGame();
