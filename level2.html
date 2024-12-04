@@ -12,12 +12,16 @@
         <div id="timer-box" class="info-box">
             Время: <span id="time-left">0</span> сек
         </div>
-        <div id="task-label">
+        <div id="task-label" class="task-display">
             Найди красный круг
         </div>
         <div id="score-box" class="info-box">
             <div>Раунд: <span id="round-info">1 / 10</span></div>
             <div>Счёт: <span id="score-info">0</span></div>
+        </div>
+        <div id="control-buttons">
+            <!-- <button id="pause-btn" class="control-btn">Пауза</button> -->
+            <button id="menu-btn" class="control-btn">Меню</button>
         </div>
     </div>
 
@@ -34,6 +38,7 @@
         </div>
 
     </div>
+    <div id="feedback"><p>Дважды кликни на фигуру</p></div>
 
     <!-- Модальное окно завершения игры -->
     <div id="game-over-modal" class="hidden modal">
@@ -51,8 +56,9 @@
     <div id="rules-modal" class="modal">
         <div class="modal-content">
             <h2>Правила игры</h2>
-            <p>На каждом уровне вы должны найти фигуру, соответствующую заданию. 
-            У вас ограниченное время, поэтому действуйте быстро!</p>
+            <p>В каждом раунде нужно найти фигуру, соответствующую заданию сверху,
+                дважды кликнуть на нее, и после этого нажать на клавиатуре на букву, которая написана на фигуре.
+            Время ограниченно, действуйте быстро!</p>
             <button id="start-button" class="modal-buttons">Старт</button>
         </div>
     </div>

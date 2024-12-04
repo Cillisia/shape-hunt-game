@@ -8,8 +8,8 @@ const currentUser = users.find(user => user.username === currentUsername);
 let curRound = 0;
 let curScore = 0;
 const numRounds=10;
-const roundTime = 40-Number(currentUser.difficulty)*2;
-let timeLeft = 40-Number(currentUser.difficulty)*2; // например, 30 секунд на раунд
+const roundTime = 30-Number(currentUser.difficulty)*2;
+let timeLeft = 30-Number(currentUser.difficulty)*2; // например, 30 секунд на раунд
 let timer;
 const winMessage = "Уровень пройден!";
 const looseMessage = "Ты проиграл!";
@@ -43,7 +43,7 @@ let targetCellIndex = 0;
 const baseRowNum = 3;
 const baseColNum = 5;
 const gridCells = (Number(currentUser.difficulty)+baseRowNum)*(Number(currentUser.difficulty)+baseColNum); // Общее количество ячеек в сетке
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const alphabet = "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 
 //создаем задание
 function generateTask() {
@@ -73,16 +73,10 @@ function startTimer() {
         } else {
             timeLeft--;
             console.log("Оставшееся время:", timeLeft);
-            // Обновляем отображение таймера на странице (например, в элементе с id="timer")
             document.getElementById("time-left").textContent = ` ${timeLeft} `;
         }
     }, 1000); 
-
-    // Сбрасываем предыдущую анимацию
-    const timerBar = document.getElementById("timer-bar");
-    timerBar.style.animation = "none";
-    timerBar.offsetHeight; 
-    timerBar.style.animation = `shrink ${roundTime}s linear`; //АНИМАЦИЯ ПОЛОСКИ ТАЙМЕРА
+    resetTimebarAnimation();
 }
 
 function stopTimer() {
@@ -129,7 +123,7 @@ function generateFigures() {
     gameField.innerHTML = ""; // Очищаем поле перед каждым раундом
     timeLeft = roundTime; // сбрасываем время на начало
     // Запускаем таймер
-    startTimer();
+    //startTimer();
 
     for (let i = 0; i < gridCells; i++) {
         const figure = document.createElement("div");
@@ -159,7 +153,7 @@ function generateFigures() {
             figure.addEventListener("dblclick", () => {
                 console.log("Правильная фигура найдена!");
                 // Тут запустить ввод с клавы надписи
-                checkFigure(figure);
+                keyboardVerification();
             });
         } else {
             // Генерируем случайную фигуру и цвет, отличные от целевой
@@ -185,10 +179,11 @@ function generateFigures() {
             figure.appendChild(label);
 
             // Добавляем обработчик для неправильного клика
-            figure.addEventListener("click", () => {
+            figure.addEventListener("dblclick", () => {
                 console.log("Неправильная фигура!");
-                // Тут можно добавить логику штрафа потом отд функцию наклипать
-                //checkFigure(figure);
+                feedback.textContent = "Неправильно! Попробуй еще";
+                curScore-=10; 
+                document.getElementById('score-info').textContent = ` ${curScore}`;
             });
         }
         gameField.appendChild(figure);
@@ -204,16 +199,61 @@ function startGame() {
     generateFeild()
     generateTask();
     generateFigures();
+    startTimer();
 
 }
 
-// Проверка правильности выбора фигуры
-function checkFigure(figure) {
-    const userInput = prompt("Введите букву, указанную на фигуре:");
-    if (userInput && userInput.toUpperCase() === targetChar) {
-        alert("Правильно! Переход к следующему раунду.");
-       // generateFigures(); // Генерация новых фигур
-    } else {
-        alert("Неправильно. Попробуйте снова.");
+
+
+function keyboardVerification(){
+    feedback.textContent = `Нажми на клавишу клавиатуры с буквой на фигуре`;
+    const handleKeyPress = (event) => {
+        if (event.key.toUpperCase() === targetChar) {
+            feedback.textContent = "Правильно! Буква совпала.";
+            document.removeEventListener("keydown", handleKeyPress); // Удаляем обработчик
+            curScore+=30+Math.round(0.5*timeLeft)+4*Number(currentUser.difficulty); 
+            startNextRound();
+        } else {
+            feedback.textContent = `Неправильно! Нажато "${event.key.toUpperCase()}". Кликай заново :) `;
+            document.removeEventListener("keydown", handleKeyPress); // Удаляем обработчик
+            curScore-=10; 
+        }
+        document.getElementById('score-info').textContent = ` ${curScore}`;
+    };
+
+    // Добавляем обработчик события клавиатуры
+    document.addEventListener("keydown", handleKeyPress);
+}
+
+function startNextRound(){
+    //начать следующий раунд, типа вызвать функцию перезагрузки стола и тд 
+    if(curRound<numRounds-1){
+        generateTask();
+        generateFigures();
+        resetTimebarAnimation()
+        curRound+=1; //обновить на доске что типа новый раунд TODO убрать это в отд функ
+        document.getElementById('round-info').textContent = ` ${curRound+1} / ${numRounds}`;
+        document.getElementById("time-left").textContent = ` ${roundTime} `;
+        feedback.textContent = "Дважды кликни на фигуру";
+    }
+    else{
+        showGameOverModal(winMessage);
+        if(curScore>currentUser.scorel2){
+            currentUser.scorel2 = curScore;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
     }
 }
+
+function resetTimebarAnimation(){
+     // Сбрасываем предыдущую анимацию
+     const timerBar = document.getElementById("timer-bar");
+     timerBar.style.animation = "none";
+     timerBar.offsetHeight; 
+     timerBar.style.animation = `shrink ${roundTime}s linear`; //АНИМАЦИЯ ПОЛОСКИ ТАЙМЕРА
+}
+
+document.getElementById('menu-btn').addEventListener('click', () => {
+    alert("Ваши очки не сохранятся")
+    window.location.href = "menu.html"; // Переход в меню
+});

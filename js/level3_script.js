@@ -7,14 +7,14 @@ const currentUser = users.find(user => user.username === currentUsername);
 const curDifficulty = Number(currentUser.difficulty);
 let curRound = 0;
 let curScore = 0;
-const numRounds=10;
+const numRounds=5;
 const roundTime = 30-Number(currentUser.difficulty)*2;
 let timeLeft = roundTime; // например, 30 секунд на раунд
 let timer;
 const winMessage = "Уровень пройден!";
 const looseMessage = "Ты проиграл!";
-const figuresForLeft = 2; // Количество фигур для левой стороны
-const figuresForRight = 2; // Количество фигур для правой стороны
+const figuresForLeft = 1; // Количество фигур для левой стороны
+const figuresForRight = 1; // Количество фигур для правой стороны
 let isPaused = false;
 let timerInterval;
 const colorDictionary = {
@@ -237,7 +237,7 @@ function generateTaskFigure(side) {
 }
 
 function getRandomItem(array) {
-    return array[Math.floor(Math.random() * array.length)];
+    return array[Math.floor(Math.random() * (array.length - (2-curDifficulty)))];
 }
 
 // Функция генерации случайной фигуры
