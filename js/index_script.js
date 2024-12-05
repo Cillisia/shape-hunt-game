@@ -3,9 +3,9 @@ import { saveUserData, getUserData } from './storage.js';
 // Получаем элементы
 const startGameButton = document.getElementById('start-game');
 const usernameInput = document.getElementById('username');
-const rulesButton = document.getElementById('rules-btn');
-const rulesModal = document.getElementById('rules-modal');
-const closeModal = document.getElementById('close-modal');
+const rulesButton = document.getElementById('rulesMenuButton');
+const rulesModal = document.getElementById('rules-banner');
+const closeModal = document.getElementById('close-banner');
 
 // Обработка кнопки "Начать игру"
 startGameButton.addEventListener('click', () => {
@@ -51,17 +51,17 @@ startGameButton.addEventListener('click', () => {
 
 // Открытие модального окна с правилами
 rulesButton.addEventListener('click', () => {
-    rulesModal.style.display = 'flex';
+    rulesModal.classList.add('show-banner');
 });
 
 // Закрытие модального окна
 closeModal.addEventListener('click', () => {
-    rulesModal.style.display = 'none';
+    rulesModal.classList.remove('show-banner');
 });
 
-// Закрытие модального окна при клике вне его
-window.addEventListener('click', (event) => {
-    if (event.target === rulesModal) {
-        rulesModal.style.display = 'none';
-    }
-});
+// // Закрытие модального окна при клике вне его
+// window.addEventListener('click', (event) => {
+//     if (event.target === rulesModal) {
+//         rulesModal.style.display = 'none';
+//     }
+// });

@@ -16,6 +16,7 @@
             <span id="player-score">Счёт: 0</span>
         </div>
 
+        <div><h1>Меню</h1></div>
         <div class="button-container">
             <button class="level-button" id="level1">Уровень 1</button>
             <button class="level-button" id="level2">Уровень 2</button>
@@ -31,6 +32,10 @@
                 <option value="1">Средний</option>
                 <option value="2">Сложный</option>
             </select>
+        </div>
+
+        <div class="button-container">
+            <button class="rating-button" id="rating">Рейтинг</button>
         </div>
 
         <div id="rules-banner" class="hidden-banner">
@@ -56,7 +61,9 @@
     </div>
 
     <!-- Кнопка с правилами -->
-    <button id="rulesMenuButton">?</button>
+    <button id="rulesMenuButton" class="upperButton">?</button>
+    <!-- Кнопка разлогина-->
+    <button id="unlogButton" class="upperButton" title="Вернуться к регистрации"></button>
 
     <script src="./js/menu_script.js" type="module"></script>
 </body>

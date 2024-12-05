@@ -1,7 +1,7 @@
 /* Основные стили */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #d2d1f0;
     margin: 0;
     padding: 0;
     display: flex;
@@ -32,7 +32,7 @@ body {
 }
 
 #username {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -54,7 +54,7 @@ body {
     background-color: #218838;
 }
 
-/* Кнопка помощи */
+/* Кнопка помощи
 .help-button {
     position: absolute;
     top: 20px;
@@ -74,11 +74,11 @@ body {
 
 .help-button:hover {
     background-color: #0056b3;
-}
+} */
 
 /* Модальное окно */
-.modal {
-    display: none; /* Скрываем окно по умолчанию */
+/* .modal {
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
@@ -97,13 +97,102 @@ body {
     width: 80%;
     max-width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+} */
 
-.close-button {
+/* .close-button {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
     font-size: 1.5em;
     color: #333;
+} */
+
+/* Кнопка с правилами */
+#rulesMenuButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    padding: 5px 10px;
+    border: 1px solid #007BFF;
+    background-color: transparent;
+    color: #007BFF;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#rulesMenuButton:hover {
+    background-color: #007BFF;
+    color: white;
+}
+
+/* Скрытый баннер по умолчанию */
+.hidden-banner {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #007bff; /* Синий фон */
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+/* Видимый баннер */
+.show-banner {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all; /* Делает баннер кликабельным */
+}
+/* Кнопка "крестик" для закрытия баннера */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+.close-button:hover {
+    color: #fc8c8c; /* Красный оттенок при наведении */
+}
+
+
+/* Заголовок баннера */
+.banner-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* Контейнер с описанием уровней */
+.rules-content {
+    margin-top: 10px;
+    color: #e6e8f5;
+}
+
+/* Информация о каждом уровне */
+.level-info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #f1f3f7;
+}
+
+.level-info p {
+    font-size: 14px;
+    line-height: 1.6;
 }

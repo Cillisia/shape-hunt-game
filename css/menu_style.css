@@ -8,7 +8,13 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f4f4f9;
+    background-color:#d2d1f0;
+}
+
+h1{
+    text-align: center;
+    margin: 20px 0;
+    margin-bottom: 30px;
 }
 
 .button-container {
@@ -35,6 +41,25 @@ body {
     background-color: #0056b3;
     transform: scale(1.05); 
 }
+
+.rating-button {
+    width: 250px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #de68f5;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.rating-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); 
+}
+
+
 .disabled {
     background-color: #ccc;
     color: #666; /* Темный текст */
@@ -46,10 +71,10 @@ body {
 }
 
 /* Кнопка с правилами */
-#rulesMenuButton {
+.upperButton {
+    width:40px;
+    height: 40px;
     position: absolute;
-    top: 10px;
-    right: 10px;
     font-size: 18px;
     padding: 5px 10px;
     border: 1px solid #007BFF;
@@ -59,11 +84,25 @@ body {
     cursor: pointer;
 }
 
-#rulesMenuButton:hover {
+.upperButton:hover {
     background-color: #007BFF;
     color: white;
 }
 
+#rulesMenuButton{
+    top: 20px;
+    right: 20px;
+}
+
+#unlogButton{
+    top: 20px;
+    right: 80px;
+    background-image: url('../data/logout.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position-x: 7px;
+    background-position-y: 4px;
+}
 
 /* Контейнер для выпадающего списка */
 .dropdown-container {

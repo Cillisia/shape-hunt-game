@@ -42,12 +42,12 @@ document.getElementById('level3').addEventListener('click', () => {
     }
 });
 
-function showBanner(message) {
-    const banner = document.getElementById('not-banner')
-    banner.textContent = message;
-    banner.classList.add("show-banner");
-    setTimeout(() => banner.classList.remove("show-banner"), 2500); // Скрытие баннера через 3 сек
-}
+// function showBanner(message) {
+//     const banner = document.getElementById('not-banner')
+//     banner.textContent = message;
+//     banner.classList.add("show-banner");
+//     setTimeout(() => banner.classList.remove("show-banner"), 2500); // Скрытие баннера через 3 сек
+// }
 
 
 // Функция для запуска игры
@@ -89,8 +89,15 @@ function hideRulesBanner() {
 // Обработчик клика по кнопке "крестик"
 closeBannerButton.addEventListener('click', hideRulesBanner);
 
-// Обработчик клика по кнопке меню
+// Обработчик клика по кнопке меню TODO
 document.getElementById('rulesMenuButton').addEventListener('click', () => {
     showRulesBanner('Правила игры: Найдите нужные фигуры, следуя инструкциям. Уровни сложности увеличивают скорость и сложность задач!');
 });
 
+document.getElementById('rating').addEventListener('click', () => {
+    window.location.href = '../rating.html';
+});
+
+document.getElementById('unlogButton').addEventListener('click', () => {
+    window.location.href = '../index_game.html';
+});
