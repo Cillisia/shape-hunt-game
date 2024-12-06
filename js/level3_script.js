@@ -53,12 +53,75 @@ const gridCells = (Number(currentUser.difficulty)+baseRowNum)*(Number(currentUse
 
 const leftSection = document.getElementById("left-container");
 const rightSection = document.getElementById("right-container");
+const gameField = document.getElementById("game-field");
 
 leftSection.addEventListener("dragover", (event) => event.preventDefault());
 rightSection.addEventListener("dragover", (event) => event.preventDefault());
 
 leftSection.addEventListener("drop", (event) => drop(event, leftSection,'left'));
 rightSection.addEventListener("drop", (event) => drop(event, rightSection, 'right'));
+
+
+// Хранение данных фигуры во время перетаскивания
+let draggedElement = null;
+let offsetX = 0;
+let offsetY = 0;
+
+// // Начало перетаскивания
+// gameField.addEventListener("dragstart", (event) => {
+//     if (event.target.classList.contains("draggable")) {
+//         draggedElement = event.target;
+
+//         // Вычисляем смещение мыши относительно фигуры
+//         const rect = draggedElement.getBoundingClientRect();
+//         offsetX = event.clientX - rect.left;
+//         offsetY = event.clientY - rect.top;
+//     }
+// });
+
+// gameField.addEventListener("dragstart", (event) => {
+//     // Проверяем, что элемент имеет класс 'draggable'
+//     if (event.target.classList.contains("draggable")) {
+//         draggedElement = event.target;
+
+//         // Вычисляем смещение мыши относительно фигуры
+//         const rect = draggedElement.getBoundingClientRect();
+//         offsetX = event.clientX - rect.left;
+//         offsetY = event.clientY - rect.top;
+//     }
+// });
+// Предотвращаем поведение по умолчанию для `drop`
+gameField.addEventListener("dragover", (event) => {
+    event.preventDefault();
+});
+
+// Перемещение фигуры
+gameField.addEventListener("drop", (event) => {
+    event.preventDefault();
+    // Извлекаем id перетаскиваемого элемента
+    const id = event.dataTransfer.getData("text/plain");
+    const draggedElement = document.getElementById(id);
+
+    if (!draggedElement) {
+        console.error("Перетаскиваемый элемент не найден!");
+        return;
+    }
+
+    if (draggedElement) {
+        // Новые координаты внутри контейнера
+        const newLeft = event.offsetX - draggedElement.clientWidth / 2;
+        const newTop = event.offsetY - draggedElement.clientHeight / 2;
+
+        // Ограничиваем движение фигуры границами game-field
+        const maxLeft = gameField.clientWidth - draggedElement.offsetWidth;
+        const maxTop = gameField.clientHeight - draggedElement.offsetHeight;
+
+        draggedElement.style.left = `${Math.max(0, Math.min(newLeft, maxLeft))}px`;
+        draggedElement.style.top = `${Math.max(0, Math.min(newTop, maxTop))}px`;
+
+    }
+});
+//добавить типа что если тот же контейнер то окэй
 
 
 
@@ -177,6 +240,8 @@ function generateFigures() {
     const gameField = document.getElementById("game-field");
     gameField.innerHTML = ""; // Очищаем поле перед каждым раундом
 
+    const containerWidth = gameField.offsetWidth;
+    const containerHeight = gameField.offsetHeight;
     let figuresArray = [];
 
     // Генерация фигур для левой стороны
@@ -201,9 +266,19 @@ function generateFigures() {
     figuresArray = shuffleArray(figuresArray);
 
     // Добавляем фигуры в сетку
+    let i=0;
     figuresArray.forEach(figure => {
+        const randomX = Math.random() * (containerWidth - 50); // 50 - размер фигуры
+        const randomY = Math.random() * (containerHeight - 50);
+        figure.style.left = `${randomX}px`;
+        figure.style.top = `${randomY}px`;
+        //makeDraggable(figure);
+        figure.id = `figure-${i}`;
+        i+=1;
+
         gameField.appendChild(figure);
     });
+
 
     // Сбрасываем таймер и запускаем его
     timeLeft = roundTime;
@@ -211,6 +286,27 @@ function generateFigures() {
 }
 
 
+function makeDraggable(element) {
+    let offsetX, offsetY;
+
+    element.addEventListener('mousedown', (e) => {
+        offsetX = e.clientX - element.offsetLeft;
+        offsetY = e.clientY - element.offsetTop;
+
+        const onMouseMove = (e) => {
+            element.style.left = `${e.clientX - offsetX}px`;
+            element.style.top = `${e.clientY - offsetY}px`;
+        };
+
+        const onMouseUp = () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    });
+}
 function generateTaskFigure(side) {
     const figure = document.createElement("div"); //болванка
     figure.classList.add("figure");
@@ -278,7 +374,7 @@ function startGame() {
     document.getElementById("rules-modal").classList.add("hidden");
     // Инициализация п  ервого раунда 
     //Генерим поле в зависимости от сложности
-    generateFeild()
+    //generateFeild()
     generateTask();
     generateFigures();
 
@@ -289,15 +385,11 @@ function generateFeild(){
     gridElement.style.gridTemplateRows = 'repeat('+`${Number(currentUser.difficulty)+baseRowNum}`+ ', 1fr)';
 }
 function dragStart(event) {
-    event.dataTransfer.setData("text/plain", event.target.outerHTML);
+    // Сохраняем HTML фигуры и её координаты
+    event.dataTransfer.setData("text/plain", event.target.id);
+    event.dataTransfer.effectAllowed = "move";
     event.target.classList.add("dragged");
 
-     // Создаем заглушку
-    // const placeholder = document.createElement("div");
-    // placeholder.classList.add("placeholder");
-
-//     // Заменяем фигуру на заглушку
-//    event.target.parentNode.replaceChild(placeholder, event.target);
 }
 function dragOver(event) {
     event.preventDefault();
@@ -305,36 +397,42 @@ function dragOver(event) {
 
 function drop(event, section, side) {
     event.preventDefault();
-    const draggedHTML = event.dataTransfer.getData("text/plain");
+    // Извлекаем id перетаскиваемого элемента
+    const id = event.dataTransfer.getData("text/plain");
+    const draggedElement = document.getElementById(id);
 
-    // Создаем DOM-элемент из строки HTML
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = draggedHTML;
-    const draggedElement = tempDiv.firstChild;
+    if (!draggedElement) {
+        console.error("Перетаскиваемый элемент не найден!");
+        return;
+    }
+
 
     // Проверяем соответствие условиям секции
     if (chechCondition(draggedElement, side)) {
         // Если фигура подходит
         section.appendChild(draggedElement);
+        draggedElement.style.position = "relative";
+        draggedElement.style.left = "0";
+        draggedElement.style.top = "0";
         section.classList.add("correct");
         curScore+=10+ Math.round(0.3*timeLeft)+4*curDifficulty;
         console.log("правильная фигура кайф")
         // Удаляем исходную фигуру из поля
-        const dragged = document.getElementById('game-field').querySelector(".dragged");
-        if (dragged) {
-            dragged.style.opacity = "0"; // Прозрачность
-            dragged.style.pointerEvents = "none"; // Отключаем взаимодействие
-            dragged.setAttribute("draggable", "false"); // Отключаем возможность перетаскивания
-            dragged.classList.remove("dragged", 'goodLeft','goodRight');
-        }
+        draggedElement.classList.remove("dragged");
+
+        // if (dragged) {
+        //     dragged.style.opacity = "0"; // Прозрачность
+        //     dragged.style.pointerEvents = "none"; // Отключаем взаимодействие
+        //     dragged.setAttribute("draggable", "false"); // Отключаем возможность перетаскивания
+        //     dragged.classList.remove("dragged", 'goodLeft','goodRight');
+        // }
     } else {
         // Если фигура не подходит
         section.classList.add("wrong");
         setTimeout(() => section.classList.remove("wrong"), 1000); // Убираем подсветку через 1 сек
         curScore -= 5; // Снимаем очки
         console.log("неверно фигура")
-        const dragged = document.getElementById('game-field').querySelector(".dragged");
-        dragged.classList.remove("dragged");
+        draggedElement.classList.remove("dragged");
         
     }
     document.getElementById('score-info').textContent = ` ${curScore}`;
@@ -404,7 +502,7 @@ function checkRoundEnd(){
             document.getElementById('right-container').innerHTML = "";
         }
         else{
-            stopTimer();
+            
             showGameOverModal(winMessage);
             if(curScore>currentUser.scorel3){
                 currentUser.scorel3 = curScore;
