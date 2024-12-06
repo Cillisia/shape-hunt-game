@@ -29,3 +29,9 @@ document.addEventListener("DOMContentLoaded", function() {
         leaderboardTableBody.appendChild(row);
     });
 });
+
+
+// Кнопка "Меню"
+document.getElementById("menu-btn").addEventListener("click", () => {
+    window.location.href = "../menu.html"; // Переход на страницу меню
+});

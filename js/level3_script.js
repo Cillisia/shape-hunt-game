@@ -122,7 +122,7 @@ function showGameOverModal(message) {
         //тут подтянуть лучший счет игрока за этот уровень из локал TODO
     }
     else{
-        finalRasDetails.textContent = 'Пройдено раундов:' +` ${curRound}`+ '/10 ';
+        finalRasDetails.textContent = 'Пройдено раундов:' +` ${curRound}`+ '/5 ';
     }
 
     // Показываем модальное окно
@@ -404,6 +404,7 @@ function checkRoundEnd(){
             document.getElementById('right-container').innerHTML = "";
         }
         else{
+            stopTimer();
             showGameOverModal(winMessage);
             if(curScore>currentUser.scorel3){
                 currentUser.scorel3 = curScore;

@@ -66,6 +66,7 @@ function startTimer() {
     // Таймер будет отсчитывать каждую секунду
     timer = setInterval(() => {
         if (timeLeft <= 0) {
+            stopTimer();
             showGameOverModal(looseMessage);
             clearInterval(timer);  // Остановить таймер, если время вышло
             console.log("Время вышло!");
@@ -152,6 +153,7 @@ function generateFigures() {
             // Добавляем обработчик для правильного клика
             figure.addEventListener("dblclick", () => {
                 console.log("Правильная фигура найдена!");
+                figure.classList.add('correctClick');
                 // Тут запустить ввод с клавы надписи
                 keyboardVerification();
             });
@@ -181,6 +183,10 @@ function generateFigures() {
             // Добавляем обработчик для неправильного клика
             figure.addEventListener("dblclick", () => {
                 console.log("Неправильная фигура!");
+                figure.classList.add('wrongClick');
+                setTimeout(() => {
+                    figure.classList.remove('wrongClick'); // Убираем класс через полсекунды
+                }, 500); 
                 feedback.textContent = "Неправильно! Попробуй еще";
                 curScore-=10; 
                 document.getElementById('score-info').textContent = ` ${curScore}`;
@@ -215,6 +221,10 @@ function keyboardVerification(){
             startNextRound();
         } else {
             feedback.textContent = `Неправильно! Нажато "${event.key.toUpperCase()}". Кликай заново :) `;
+            const elements = document.querySelectorAll('.correctClick');
+            elements.forEach(element => {
+                element.classList.remove('correctClick');
+            });
             document.removeEventListener("keydown", handleKeyPress); // Удаляем обработчик
             curScore-=10; 
         }
@@ -228,6 +238,7 @@ function keyboardVerification(){
 function startNextRound(){
     //начать следующий раунд, типа вызвать функцию перезагрузки стола и тд 
     if(curRound<numRounds-1){
+        stopTimer();
         generateTask();
         generateFigures();
         resetTimebarAnimation()
@@ -237,6 +248,7 @@ function startNextRound(){
         feedback.textContent = "Дважды кликни на фигуру";
     }
     else{
+        stopTimer();
         showGameOverModal(winMessage);
         if(curScore>currentUser.scorel2){
             currentUser.scorel2 = curScore;

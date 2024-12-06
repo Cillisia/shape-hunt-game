@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #d2d1f0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -34,11 +34,11 @@ body {
     align-items: center; /* Выравниваем по центру */
     justify-content: center; /* Вертикальное выравнивание */
     text-align: center; /* Текст по центру */
-    font-size: 18px; /* Размер шрифта */
+    font-size: 20px; /* Размер шрифта */
     font-weight: bold; /* Полужирный шрифт */
     line-height: 1.5; /* Межстрочный интервал */
     color: #333; /* Цвет текста */
-    background-color: #f7f7f7; /* Легкий фон */
+    background-color: #f7f7f700; /* Легкий фон */
     padding: 20px; /* Отступы вокруг текста */
     border-radius: 8px; /* Скругленные углы */
     width: 80%; /* Ограничиваем ширину блока */
@@ -46,6 +46,11 @@ body {
 }
 .task-display p {
     margin: 0; /* Убираем отступы между строками */
+}
+
+#task-label{ 
+    line-height: 60px; 
+    text-align: bottom;
 }
 
 
@@ -206,6 +211,7 @@ body {
 
 #score-box {
     text-align: left;
+    width: 150px;
 }
 
 /* МОДАЛЬНОЕ ОКНО  */
@@ -237,7 +243,7 @@ body {
     border-radius: 10px;
     text-align: center;
     width: 40%;
-    height: 30%;
+    height: 35%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -261,11 +267,16 @@ body {
     color: #fff;
 }
 #start-button{
-    background: #28a745;
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #de68f5;
     color: #fff;
-    height: 20%;
-    width: 20%
 }
+
 
 .modal-buttons button:hover {
     opacity: 0.9;
@@ -396,4 +407,20 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+}
+
+.correctClick{
+    transform: scale(1.2);
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.wrongClick {
+    animation: shake 0.5s ease; /* Применяем анимацию тряски */
 }

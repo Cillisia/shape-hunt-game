@@ -115,10 +115,14 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 // Проверка выбранной фигуры
-function checkFigure(figure) {
+async function checkFigure(figure) {
     console.log("Фигура выбрана:", figure);
     if(figure.classList.contains('target')){
+        figure.classList.add('correctClick');
+        await sleep(400);
         stopTimer();
         curScore+=30+5*timeLeft+15*Number(currentUser.difficulty); 
         console.log(curScore, timeLeft, currentUser.difficulty);
@@ -144,6 +148,10 @@ function checkFigure(figure) {
     }
     else{
         curScore-=10;
+        figure.classList.add('wrongClick');
+        setTimeout(() => {
+            figure.classList.remove('wrongClick'); // Убираем класс через полсекунды
+        }, 500); 
         //и пусть на экране будет вылетать где-то сбоку красная надпись -10
         //ну или фигура неприкольно трясется угрожающе
         //для всех фигур он ховер прописать смешнявки
@@ -229,3 +237,8 @@ function generateFeild(){
     gridElement.style.gridTemplateColumns = 'repeat('+`${Number(currentUser.difficulty)+baseColNum}`+ ', 1fr)';
     gridElement.style.gridTemplateRows = 'repeat('+`${Number(currentUser.difficulty)+baseRowNum}`+ ', 1fr)';
 }
+
+// Кнопка "Меню"
+document.getElementById("menu-btn").addEventListener("click", () => {
+    window.location.href = "../menu.html"; // Переход на страницу меню
+});
