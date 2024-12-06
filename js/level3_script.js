@@ -317,7 +317,7 @@ function drop(event, section, side) {
         // Если фигура подходит
         section.appendChild(draggedElement);
         section.classList.add("correct");
-        curScore+=1+ Math.round(0.3*timeLeft)+4*curDifficulty;
+        curScore+=10+ Math.round(0.3*timeLeft)+4*curDifficulty;
         console.log("правильная фигура кайф")
         // Удаляем исходную фигуру из поля
         const dragged = document.getElementById('game-field').querySelector(".dragged");

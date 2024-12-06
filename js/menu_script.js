@@ -42,12 +42,12 @@ document.getElementById('level3').addEventListener('click', () => {
     }
 });
 
-// function showBanner(message) {
-//     const banner = document.getElementById('not-banner')
-//     banner.textContent = message;
-//     banner.classList.add("show-banner");
-//     setTimeout(() => banner.classList.remove("show-banner"), 2500); // Скрытие баннера через 3 сек
-// }
+function showBanner(message) {
+    const banner = document.getElementById('not-banner')
+    banner.textContent = message;
+    banner.classList.add("show-banner");
+    setTimeout(() => banner.classList.remove("show-banner"), 2500); // Скрытие баннера через 3 сек
+}
 
 
 // Функция для запуска игры
